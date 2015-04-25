@@ -30,7 +30,7 @@ public class ClassifierShell {
         Evaluation eval = new Evaluation(train);
         eval.evaluateModel(hcc, test);
         System.out.println(eval.toSummaryString("\nResults\n==============================================="
-                + "===================", false));
+                + "===================", true));
 
 
     }
