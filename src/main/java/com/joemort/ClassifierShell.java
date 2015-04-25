@@ -17,10 +17,9 @@ public class ClassifierShell {
 
         dataSet.setClassIndex(dataSet.numAttributes() - 1);
 
-        dataSet.randomize(new Random(9001));
+        dataSet.randomize(new Random(1));
 
-        int trainSize = (int) Math.round(dataSet.numInstances() * .7
-                / 100);
+        int trainSize = (int) Math.round(dataSet.numInstances() * .7);
         int testSize = dataSet.numInstances() - trainSize;
         Instances train = new Instances(dataSet, 0, trainSize);
         Instances test = new Instances(dataSet, trainSize, testSize);
@@ -30,7 +29,8 @@ public class ClassifierShell {
 
         Evaluation eval = new Evaluation(train);
         eval.evaluateModel(hcc, test);
-        System.out.println(eval.toSummaryString("\nResults\n======\n", false));
+        System.out.println(eval.toSummaryString("\nResults\n==============================================="
+                + "===================", false));
 
 
     }
