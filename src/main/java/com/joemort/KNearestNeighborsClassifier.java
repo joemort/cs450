@@ -45,12 +45,28 @@ public class KNearestNeighborsClassifier extends Classifier {
 
     public static double getClassification(List<Instance> instances) {
         int index = instances.get(0).classIndex();
-        double total = 0;
+        HashMap<Double, Integer> counts = new HashMap<>();
         for (Instance instance : instances) {
-            total += instance.value(index);
+            double val = instance.value(index);
+            if (!counts.containsKey(val)) {
+                counts.put(val, 1);
+            } else {
+                counts.put(val, counts.get(val) + 1);
+            }
         }
 
-        return total/instances.size();
+        // Use a 'random' pick of whichever one has the largest value,
+        // no tie breaking algorithms is implemented.
+        int maxCount = 0;
+        double maxRValue = 0;
+        for (Double key : counts.keySet()) {
+            if (counts.get(key) > maxCount) {
+                maxCount = counts.get(key);
+                maxRValue = key;
+            }
+        }
+
+        return maxRValue;
     }
 
     @Override
