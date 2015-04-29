@@ -2,6 +2,7 @@ package com.joemort;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
@@ -15,7 +16,7 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("irisdata.csv");
+        DataSource source = new DataSource("tic-tac-toedata.csv");
         Instances dataSetPre = source.getDataSet();
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
@@ -32,7 +33,7 @@ public class ClassifierShell {
         Instances train = new Instances(dataSet, 0, trainSize);
         Instances test = new Instances(dataSet, trainSize, testSize);
 
-        Classifier classify = new KNearestNeighborsClassifier(3);
+        Classifier classify = new KNearestNeighborsClassifier(1);
         classify.buildClassifier(train);
 
         Evaluation eval = new Evaluation(train);

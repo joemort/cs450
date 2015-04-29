@@ -59,10 +59,10 @@ public class KNearestNeighborsClassifier extends Classifier {
         // no tie breaking algorithms is implemented.
         int maxCount = 0;
         double maxRValue = 0;
-        for (Double key : counts.keySet()) {
-            if (counts.get(key) > maxCount) {
-                maxCount = counts.get(key);
-                maxRValue = key;
+        for (Entry<Double, Integer> entry : counts.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCount = entry.getValue();
+                maxRValue = entry.getKey();
             }
         }
 
