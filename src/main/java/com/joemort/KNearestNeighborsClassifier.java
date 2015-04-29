@@ -22,7 +22,7 @@ public class KNearestNeighborsClassifier extends Classifier {
 
     private static double distance(Instance one, Instance two) {
         double total = 0;
-        int totalAttributes = one.numAttributes();
+        int totalAttributes = one.numAttributes() - 1;
         for (int i = 0; i < totalAttributes; i++) {
             if (one.classIndex() == i)
                 continue;
@@ -32,7 +32,7 @@ public class KNearestNeighborsClassifier extends Classifier {
             if (one.attribute(i).isNumeric()) {
                 difference = Math.abs(one.value(i) - two.value(i));
             } else {
-                if (one.stringValue(i).equals(two.stringValue(i))) {
+                if (!one.stringValue(i).equals(two.stringValue(i))) {
                     difference = 1;
                 }
             }
@@ -60,19 +60,19 @@ public class KNearestNeighborsClassifier extends Classifier {
 
     @Override
     public double classifyInstance(Instance instance) throws Exception {
-        HashMap<Instance, Double> map = new HashMap<Instance, Double>();
+        HashMap<Instance, Double> map = new HashMap<>();
         for (int i = 0; i < saved.numInstances(); i++) {
             Instance tmp = saved.instance(i);
             map.put(tmp, distance(tmp, instance));
         }
 
-        List<Instance> kNearest = new ArrayList<Instance>();
-        for (Entry<Instance, Double> inst : entriesSortedByValues(map)) {
+        List<Instance> kNearest = new ArrayList<>();
+        dance: for (Entry<Instance, Double> inst : entriesSortedByValues(map)) {
+            // Always do at least 1
             kNearest.add(inst.getKey());
 
-            // Always do at least 1
             if (kNearest.size() >= k) {
-                break;
+                break dance;
             }
         }
 
@@ -80,11 +80,11 @@ public class KNearestNeighborsClassifier extends Classifier {
     }
 
     static <K,V extends Comparable<? super V>> List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
-        List<Entry<K,V>> sortedEntries = new ArrayList<Entry<K,V>>(map.entrySet());
+        List<Entry<K,V>> sortedEntries = new ArrayList<>(map.entrySet());
         Collections.sort(sortedEntries, new Comparator<Entry<K, V>>() {
                     @Override
                     public int compare(Entry<K, V> e1, Entry<K, V> e2) {
-                        return -e2.getValue().compareTo(e1.getValue());
+                        return e1.getValue().compareTo(e2.getValue());
                     }
                 }
         );
