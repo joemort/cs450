@@ -4,6 +4,9 @@ import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 /**
  * Created by Joseph Mortensen on 4/28/2015.
  * ¯\_(ツ)_/¯
@@ -40,6 +43,16 @@ public class KNearestNeighborsClassifier extends Classifier {
         return Math.pow(total, 1.0/totalAttributes);
     }
 
+    public static double getClassification(List<Instance> instances) {
+        int index = instances.get(0).classIndex();
+        double total = 0;
+        for (Instance instance : instances) {
+            total += instance.value(index);
+        }
+
+        return total/instances.size();
+    }
+
     @Override
     public void buildClassifier(Instances instances) throws Exception {
         saved = new Instances(instances);
@@ -47,8 +60,35 @@ public class KNearestNeighborsClassifier extends Classifier {
 
     @Override
     public double classifyInstance(Instance instance) throws Exception {
-        return 0;
+        HashMap<Instance, Double> map = new HashMap<Instance, Double>();
+        for (int i = 0; i < saved.numInstances(); i++) {
+            Instance tmp = saved.instance(i);
+            map.put(tmp, distance(tmp, instance));
+        }
+
+        List<Instance> kNearest = new ArrayList<Instance>();
+        for (Entry<Instance, Double> inst : entriesSortedByValues(map)) {
+            kNearest.add(inst.getKey());
+
+            // Always do at least 1
+            if (kNearest.size() >= k) {
+                break;
+            }
+        }
+
+        return getClassification(kNearest);
     }
 
-    //class
+    static <K,V extends Comparable<? super V>> List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
+        List<Entry<K,V>> sortedEntries = new ArrayList<Entry<K,V>>(map.entrySet());
+        Collections.sort(sortedEntries, new Comparator<Entry<K, V>>() {
+                    @Override
+                    public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+                        return -e2.getValue().compareTo(e1.getValue());
+                    }
+                }
+        );
+
+        return sortedEntries;
+    }
 }

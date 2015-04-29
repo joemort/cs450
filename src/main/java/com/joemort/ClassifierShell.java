@@ -1,5 +1,6 @@
 package com.joemort;
 
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -24,11 +25,11 @@ public class ClassifierShell {
         Instances train = new Instances(dataSet, 0, trainSize);
         Instances test = new Instances(dataSet, trainSize, testSize);
 
-        HardCodedClassifier hcc = new HardCodedClassifier();
-        hcc.buildClassifier(train);
+        Classifier classify = new KNearestNeighborsClassifier(3);
+        classify.buildClassifier(train);
 
         Evaluation eval = new Evaluation(train);
-        eval.evaluateModel(hcc, test);
+        eval.evaluateModel(classify, test);
         System.out.println(eval.toSummaryString("\nResults\n==============================================="
                 + "===================", true));
 
