@@ -236,7 +236,12 @@ public class ID3Classifier extends Classifier {
                     else val = 1.0;
                 }
 
-                return getClassification(instance, n.get(val));
+                Node child = n.get(val);
+                if (child == null) {
+                    return KNearestNeighborsClassifier.getClassification(n.instances);
+                } else {
+                    return getClassification(instance, n.get(val));
+                }
             }
         }
     }
