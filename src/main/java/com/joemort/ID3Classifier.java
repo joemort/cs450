@@ -208,7 +208,7 @@ public class ID3Classifier extends Classifier {
                 Map<Double, Integer> classToCount = new HashMap<>();
                 for (Node child : n.getChildren()) {
                     Double value = getClassification(instance, child);
-                    if (!classToCount.containsKey(value) || classToCount.get(value) == null) {
+                    if (!classToCount.containsKey(value) && classToCount.get(value) != null) {
                         classToCount.put(value, classToCount.get(value) + 1);
                     } else {
                         classToCount.put(value, 1);

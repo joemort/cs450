@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("tic-tac-toedata.csv");
+        DataSource source = new DataSource("breast-cancer-wisconsindata.csv");
         Instances dataSetPre = source.getDataSet();
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a73bb16f-e8a1-4824-ad3a-60d0c27dcf1b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/joemort/ClassifierShell.class" afterPath="$PROJECT_DIR$/target/classes/com/joemort/ClassifierShell.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java" afterPath="$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java" afterPath="$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -31,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ClassifierShell.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClassifierShell.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48295453" vertical-offset="0" max-vertical-offset="884">
-              <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
+              <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ID3Classifier.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ID3Classifier.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.448277" vertical-offset="3625" max-vertical-offset="5134">
-              <caret line="243" column="17" selection-start-line="243" selection-start-column="17" selection-end-line="243" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.4008016" vertical-offset="3370" max-vertical-offset="5134">
+              <caret line="210" column="85" selection-start-line="210" selection-start-column="85" selection-end-line="210" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#9116#9117#0" expanded="true" />
@@ -107,8 +106,8 @@
         <option value="$PROJECT_DIR$/irisdata.csv" />
         <option value="$PROJECT_DIR$/tic-tac-toedata.csv" />
         <option value="$PROJECT_DIR$/src/main/java/com/joemort/KNearestNeighborsClassifier.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java" />
       </list>
     </option>
   </component>
@@ -629,7 +628,13 @@
       <option name="project" value="LOCAL" />
       <updated>1431489588972</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="small fix to id3 that makes it work better">
+      <created>1431490566547</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1431490566547</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -686,7 +691,8 @@
     <MESSAGE value="bug fixes to the algorithm, normalize data" />
     <MESSAGE value="add lots of new data sets, small tweaks" />
     <MESSAGE value="add first commit for id3" />
-    <option name="LAST_COMMIT_MESSAGE" value="add first commit for id3" />
+    <MESSAGE value="small fix to id3 that makes it work better" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fix to id3 that makes it work better" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -820,16 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/HardCodedClassifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/Program Files/Java/jdk1.8.0_31/src.zip!/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7281553" vertical-offset="3824" max-vertical-offset="38862">
@@ -851,10 +847,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/HardCodedClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
+          <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ID3Classifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.448277" vertical-offset="3625" max-vertical-offset="5134">
-          <caret line="243" column="17" selection-start-line="243" selection-start-column="17" selection-end-line="243" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.4008016" vertical-offset="3370" max-vertical-offset="5134">
+          <caret line="210" column="85" selection-start-line="210" selection-start-column="85" selection-end-line="210" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#9116#9117#0" expanded="true" />
@@ -867,16 +883,6 @@
             <element signature="e#9480#9481#0" expanded="true" />
             <element signature="e#9518#9519#0" expanded="true" />
             <element signature="e#9558#9559#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48295453" vertical-offset="0" max-vertical-offset="884">
-          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
