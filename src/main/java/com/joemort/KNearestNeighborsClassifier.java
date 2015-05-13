@@ -43,6 +43,15 @@ public class KNearestNeighborsClassifier extends Classifier {
         return Math.pow(total, 1.0/totalAttributes);
     }
 
+    public static double getClassification(Instances instances) {
+        ArrayList<Instance> instanceList = new ArrayList<>(instances.numInstances());
+        for (int i = 0; i < instances.numInstances(); i++) {
+            instanceList.add(instances.instance(i));
+        }
+
+        return getClassification(instanceList);
+    }
+
     public static double getClassification(List<Instance> instances) {
         int index = instances.get(0).classIndex();
         HashMap<Double, Integer> counts = new HashMap<>();

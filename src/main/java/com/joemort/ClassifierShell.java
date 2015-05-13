@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("tic-tac-toedata.csv");
+        DataSource source = new DataSource("irisdata.csv");
         Instances dataSetPre = source.getDataSet();
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
@@ -33,7 +33,7 @@ public class ClassifierShell {
         Instances train = new Instances(dataSet, 0, trainSize);
         Instances test = new Instances(dataSet, trainSize, testSize);
 
-        Classifier classify = new KNearestNeighborsClassifier(1);
+        Classifier classify = new ID3Classifier();
         classify.buildClassifier(train);
 
         Evaluation eval = new Evaluation(train);
