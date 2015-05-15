@@ -62,7 +62,6 @@ public class ID3Classifier extends Classifier {
         newList.remove(largestGain);
         for (Double value : summary.keySet()) {
             List<Instance> subset = subset(vals, value);
-            //if (subset.size() < 1) continue;
             Node idNode = buildTree(subset, newList);
             n.addChild(value, idNode);
         }
@@ -85,7 +84,9 @@ public class ID3Classifier extends Classifier {
         HashMap<Instance, Double> map = new HashMap<>();
 
         for (Instance instance : instances) {
-            map.put(instance, instance.value(attribute));
+            double value = instance.value(attribute);
+            if (!Double.isNaN(value))
+                map.put(instance, instance.value(attribute));
         }
 
         return map;
