@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("votingdata.csv");
+        DataSource source = new DataSource("cardata.csv");
         Instances dataSetPre = source.getDataSet();
 
         dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
@@ -35,18 +35,19 @@ public class ClassifierShell {
 
         dataSet.randomize(new Random(1));
 
-        int trainSize = (int) Math.round(dataSet.numInstances() * .7);
-        int testSize = dataSet.numInstances() - trainSize;
-        Instances train = new Instances(dataSet, 0, trainSize);
-        Instances test = new Instances(dataSet, trainSize, testSize);
-
-
         Classifier classify = new ID3Classifier();
-        classify.buildClassifier(train);
+        Evaluation eval = new Evaluation(dataSet);
+        final int folds = 10;
+        for (int n = 0; n < folds; n++) {
+            Instances train = dataSet.trainCV(folds, n);
+            Instances test = dataSet.testCV(folds, n);
 
-        Evaluation eval = new Evaluation(train);
-        eval.evaluateModel(classify, test);
-        System.out.println(eval.toSummaryString("\nResults\n==============================================="
+            Classifier clsCopy = Classifier.makeCopy(classify);
+            clsCopy.buildClassifier(train);
+            eval.evaluateModel(clsCopy, test);
+        }
+
+        System.out.println(eval.toSummaryString("\n" + folds + " Fold Cross Validation\n==============================================="
                 + "===================", false));
 
 

@@ -192,7 +192,6 @@ public class ID3Classifier extends Classifier {
         }
 
         tree = buildTree(instanceList, attributeList);
-        printTree(tree, 0, 0.0);
     }
 
     public double getClassification(Instance instance, Node n) {
