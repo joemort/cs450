@@ -5,7 +5,7 @@ import weka.classifiers.Evaluation;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
-import weka.filters.supervised.attribute.Discretize;
+import weka.filters.unsupervised.attribute.Discretize;
 import weka.filters.unsupervised.attribute.Standardize;
 
 import java.util.Random;
@@ -16,8 +16,9 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("tic-tac-toedata.csv");
+        DataSource source = new DataSource("irisdata.csv");
         Instances dataSetPre = source.getDataSet();
+
         dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
 
         Standardize stand = new Standardize();
@@ -31,7 +32,9 @@ public class ClassifierShell {
         dataSet = Filter.useFilter(dataSet, discretize);
         dataSet = Filter.useFilter(dataSet, stand);
 
-        dataSet.randomize(new Random(1));
+
+
+        dataSet.randomize(new Random(9001));
 
         int trainSize = (int) Math.round(dataSet.numInstances() * .7);
         int testSize = dataSet.numInstances() - trainSize;
@@ -45,7 +48,7 @@ public class ClassifierShell {
         Evaluation eval = new Evaluation(train);
         eval.evaluateModel(classify, test);
         System.out.println(eval.toSummaryString("\nResults\n==============================================="
-                + "===================", true));
+                + "===================", false));
 
 
     }
