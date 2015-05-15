@@ -5,6 +5,8 @@ import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Discretize;
 
 import java.util.*;
 
@@ -61,7 +63,9 @@ public class ID3Classifier extends Classifier {
         ArrayList<Attribute> newList = new ArrayList<>(attributes);
         newList.remove(largestGain);
         for (Double value : summary.keySet()) {
-            Node idNode = buildTree(subset(vals, value), newList);
+            List<Instance> subset = subset(vals, value);
+            //if (subset.size() < 1) continue;
+            Node idNode = buildTree(subset, newList);
             n.addChild(value, idNode);
         }
 
@@ -84,17 +88,6 @@ public class ID3Classifier extends Classifier {
 
         for (Instance instance : instances) {
             map.put(instance, instance.value(attribute));
-        }
-
-        if (!attribute.isNominal()) {
-            for (Instance key : map.keySet()) {
-                if (map.get(key) == Double.NaN) {
-                } else if (map.get(key) < 0.5) {
-                    map.put(key, 0.0); // 'Low'
-                } else {
-                    map.put(key, 1.0); // 'High'
-                }
-            }
         }
 
         return map;
@@ -145,6 +138,7 @@ public class ID3Classifier extends Classifier {
 
     private double entropy(List<Instance> instances) {
         double result = 0;
+        if (instances.size() == 0) return 0;
         Map<Double, Integer> summary = summarizeValues(valuesByAttribute(instances, instances.get(0).classAttribute()));
         for (Integer val : summary.values()) {
             double proportion = val * 1.0 / instances.size();
@@ -184,15 +178,21 @@ public class ID3Classifier extends Classifier {
 
     @Override
     public void buildClassifier(Instances instances) throws Exception {
-        List<Instance> instanceList = new ArrayList<>(instances.numInstances());
-        for (int i = 0; i < instances.numInstances(); i++) {
-            instanceList.add(instances.instance(i));
+
+        /*Discretize discretize = new Discretize();
+        discretize.setInputFormat(instances);
+        //discretize.setOptions(new String[] {"-B 2", "-F"});*/
+        Instances discrete = instances; /*Filter.useFilter(instances, discretize);*/
+
+        List<Instance> instanceList = new ArrayList<>(discrete.numInstances());
+        for (int i = 0; i < discrete.numInstances(); i++) {
+            instanceList.add(discrete.instance(i));
         }
 
-        List<Attribute> attributeList = new ArrayList<>(instances.numAttributes());
-        for (int i = 0; i < instances.numAttributes(); i++) {
-            if (i != instances.classIndex())
-                attributeList.add(instances.attribute(i));
+        List<Attribute> attributeList = new ArrayList<>(discrete.numAttributes());
+        for (int i = 0; i < discrete.numAttributes(); i++) {
+            if (i != discrete.classIndex())
+                attributeList.add(discrete.attribute(i));
         }
 
         tree = buildTree(instanceList, attributeList);
@@ -229,12 +229,6 @@ public class ID3Classifier extends Classifier {
                 Double val = instance.value(n.getAttribute());
                 if (val == null || Double.isNaN(val))
                     val = 0.0;
-
-                // convert val to one of the 2 values we have doubles.
-                if (!n.getAttribute().isNominal()) {
-                    if (val < 0.5) val = 0.0;
-                    else val = 1.0;
-                }
 
                 Node child = n.get(val);
                 if (child == null) {
@@ -288,7 +282,20 @@ class Node {
     }
 
     public Node get(Double d) {
-        return children2.get(d);
+        if (children2.get(d) != null) {
+            return children2.get(d);
+        } else {
+            Double closest = null;
+            double dist = Double.MAX_VALUE;
+            for (Double key : children2.keySet()) {
+                if (Math.abs(d - key) < dist) {
+                    dist = Math.abs(d - key);
+                    closest = key;
+                }
+            }
+
+            return children2.get(closest);
+        }
     }
 
     public Set<Node> getChildren() {

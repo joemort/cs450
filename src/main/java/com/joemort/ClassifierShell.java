@@ -2,10 +2,11 @@ package com.joemort;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
-import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.Id3;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
+import weka.filters.supervised.attribute.Discretize;
 import weka.filters.unsupervised.attribute.Standardize;
 
 import java.util.Random;
@@ -16,22 +17,28 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("breast-cancer-wisconsindata.csv");
+        DataSource source = new DataSource("irisdata.csv");
         Instances dataSetPre = source.getDataSet();
+        dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
+
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
-        Instances dataSet = Filter.useFilter(dataSetPre, stand);
 
-        dataSet.setClassIndex(dataSet.numAttributes() - 1);
+        Discretize discretize = new Discretize();
+        discretize.setInputFormat(dataSetPre);
+
+        Instances dataSet = dataSetPre;
+
+        dataSet = Filter.useFilter(dataSet, discretize);
+        dataSet = Filter.useFilter(dataSet, stand);
 
         dataSet.randomize(new Random(1));
-
-
 
         int trainSize = (int) Math.round(dataSet.numInstances() * .7);
         int testSize = dataSet.numInstances() - trainSize;
         Instances train = new Instances(dataSet, 0, trainSize);
         Instances test = new Instances(dataSet, trainSize, testSize);
+
 
         Classifier classify = new ID3Classifier();
         classify.buildClassifier(train);
