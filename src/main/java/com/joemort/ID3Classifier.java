@@ -179,10 +179,7 @@ public class ID3Classifier extends Classifier {
     @Override
     public void buildClassifier(Instances instances) throws Exception {
 
-        /*Discretize discretize = new Discretize();
-        discretize.setInputFormat(instances);
-        //discretize.setOptions(new String[] {"-B 2", "-F"});*/
-        Instances discrete = instances; /*Filter.useFilter(instances, discretize);*/
+        Instances discrete = instances;
 
         List<Instance> instanceList = new ArrayList<>(discrete.numInstances());
         for (int i = 0; i < discrete.numInstances(); i++) {
