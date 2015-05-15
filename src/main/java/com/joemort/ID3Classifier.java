@@ -136,7 +136,7 @@ public class ID3Classifier extends Classifier {
 
     private double entropy(List<Instance> instances) {
         double result = 0;
-        if (instances.size() == 0) return 0;
+        if (instances.isEmpty()) return 0;
         Map<Double, Integer> summary = summarizeValues(valuesByAttribute(instances, instances.get(0).classAttribute()));
         for (Integer val : summary.values()) {
             double proportion = val * 1.0 / instances.size();
