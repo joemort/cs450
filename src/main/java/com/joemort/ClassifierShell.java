@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("irisdata.csv");
+        DataSource source = new DataSource("lensesData.csv");
         Instances dataSetPre = source.getDataSet();
 
         dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
@@ -33,8 +33,7 @@ public class ClassifierShell {
         dataSet = Filter.useFilter(dataSet, stand);
 
 
-
-        dataSet.randomize(new Random(9001));
+        dataSet.randomize(new Random(1));
 
         int trainSize = (int) Math.round(dataSet.numInstances() * .7);
         int testSize = dataSet.numInstances() - trainSize;
