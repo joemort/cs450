@@ -2,10 +2,13 @@ package com.joemort;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.trees.Id3;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Discretize;
+import weka.filters.unsupervised.attribute.NumericToBinary;
+import weka.filters.unsupervised.attribute.NumericToNominal;
 import weka.filters.unsupervised.attribute.Standardize;
 
 import java.util.Random;
@@ -16,10 +19,10 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("cardata.csv");
+        DataSource source = new DataSource("votingdata.csv");
         Instances dataSetPre = source.getDataSet();
 
-        dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
+        dataSetPre.setClassIndex(0);//dataSetPre.numAttributes() - 1);
 
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
@@ -27,13 +30,17 @@ public class ClassifierShell {
         Discretize discretize = new Discretize();
         discretize.setInputFormat(dataSetPre);
 
+        NumericToNominal ntb = new NumericToNominal();
+        ntb.setInputFormat(dataSetPre);
+
         Instances dataSet = dataSetPre;
 
         dataSet = Filter.useFilter(dataSet, discretize);
         dataSet = Filter.useFilter(dataSet, stand);
+        //dataSet = Filter.useFilter(dataSet, ntb);
 
 
-        dataSet.randomize(new Random(1));
+        dataSet.randomize(new Random(9001));
 
         Classifier classify = new ID3Classifier();
         Evaluation eval = new Evaluation(dataSet);
