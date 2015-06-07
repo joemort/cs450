@@ -7,6 +7,7 @@ import weka.core.Instances;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Joseph Mortensen on 5/22/2015.
@@ -26,34 +27,72 @@ public class NeuralNetworkClassifier extends Classifier {
 
     @Override
     public void buildClassifier(Instances instances) throws Exception {
+
+        ////System.out.println("learning factor: " + learningFactor);
         int inputCount = instances.numAttributes() - 1;
 
         List<Integer> nodesPerLayer = new ArrayList<>();
 
         for (int i = 0; i < layers - 1; i++) {
-            nodesPerLayer.add(inputCount); // hardcoded for now TODO: next week
+            //nodesPerLayer.add(4); // hardcoded for now TODO: next week
+            nodesPerLayer.add(inputCount);
         }
 
         nodesPerLayer.add(instances.numDistinctValues(instances.classIndex()));
 
+        ////System.out.println("number of nodes per layer");
+        for (Integer i : nodesPerLayer) {
+            //System.out.println(i);
+        }
+
+        //System.out.println();
+
         network = new Network(inputCount, nodesPerLayer);
 
+        for (Layer l : network.layers) {
+            //System.out.println("new layer");
+            for (Neuron neuron : l.neurons) {
+                //System.out.println("new neuron");
+                for (Double w : neuron.weights) {
+                    //System.out.println(w);
+                }
+                //System.out.println();
+            }
+        }
+
         ArrayList<Double> errorsPerIteration = new ArrayList<>();
-        for (int j = 0; j < 50; j++) {
+        pimps: for (int j = 0; j < iterations; j++) {
             for (int k = 0; k < instances.numInstances(); k++) {
                 Instance instance = instances.instance(k);
 
                 List<Double> input = new ArrayList<>();
+
+                //System.out.println("num attributes: " + instance.numAttributes());
                 for (int i = 0; i < instance.numAttributes(); i++) {
-                    if (Double.isNaN(instance.value(i)) && i != instance.classIndex())
+                    if (i == instance.classIndex()) {
+                        //System.out.println("expected class: " + instance.value(i));
+                    } else if (Double.isNaN(instance.value(i))) {
                         input.add(0.0);
-                    else if (i != instance.classIndex())
+                    } else {
                         input.add(instance.value(i));
+                    }
 
                 }
 
+                //System.out.println("inputs");
+                for (Double in : input) {
+                    //System.out.println(in);
+                }
+
                 errorsPerIteration.add(network.train(input, instance.value(instance.classIndex()), learningFactor));
+                //break pimps;
             }
+        }
+
+        //System.out.println();
+        //System.out.println("errors per iteration:");
+        for (int i = 0; i < errorsPerIteration.size(); i++) {
+            //System.out.println(errorsPerIteration.get(i));
         }
     }
 
@@ -70,7 +109,7 @@ public class NeuralNetworkClassifier extends Classifier {
 
         List<Double> outputs = network.getOutputs(input);
         double largeVal = -1;
-        int index = 0;
+        int index = -1;
         for (int i = 0; i < outputs.size(); i++) {
             double tmp = outputs.get(i);
             if (tmp > largeVal) {
@@ -86,12 +125,13 @@ public class NeuralNetworkClassifier extends Classifier {
 
 class Neuron {
     List<Double> weights = new ArrayList<>();
+    static Random random = new Random(42);
 
     public Neuron(int inputCount) {
         // -1/sqrt(inputCount) <= weight <= 1/sqrt(inputCount)
         double oneOver = 1.0 / Math.sqrt(inputCount);
         for (int i = 0; i < inputCount; i++) {
-            weights.add(oneOver);//Math.random() * 2.0 * oneOver - oneOver);
+            weights.add(random.nextDouble() * 2.0 * oneOver - oneOver);
         }
     }
 
@@ -160,15 +200,21 @@ class Network {
     }
 
     public double train(List<Double> inputs, double classification, double learningValue) {
-        ArrayList<List<Double>> all = new ArrayList<>();
+        ArrayList<List<Double>> allOutputs = new ArrayList<>();
         List<Double> outputs = new ArrayList<>(inputs);
         // feed forward to calculate outputs
+
+        outputs.add(1.0);
         for (Layer layer : layers) {
-            outputs.add(-1.0);
             outputs = layer.produceOutputs(outputs);
-            all.add(outputs);
+            //System.out.println("outputs:" );
             for (Double d : outputs) {
-                //System.out.println("output: " + d);
+                //System.out.println(d);
+            }
+            outputs.add(1.0);
+            allOutputs.add(outputs);
+            for (Double d : outputs) {
+                ////System.out.println("output: " + d);
             }
         }
 
@@ -177,21 +223,28 @@ class Network {
 
         // do output nodes
         ArrayList<Double> error = new ArrayList<>();
-        List<Double> currentOutputs = all.get(all.size() - 1);
+        List<Double> currentOutputs = allOutputs.get(allOutputs.size() - 1);
         Layer current = layers.get(layers.size() - 1);
+        //System.out.println("expected outputs for output nodes:");
         for (int i = 0; i < current.neurons.size(); i++) {
+
             double expected = (classification == i ? 1 : 0);
-            error.add(currentOutputs.get(i) * (1 - currentOutputs.get(i)) * (currentOutputs.get(i) - expected));
+            //System.out.println("output node " + i + ": " + expected);
+            double errorVal = currentOutputs.get(i) * (1 - currentOutputs.get(i)) * (currentOutputs.get(i) - expected);
+            //System.out.println("error for node " + i + ": " + errorVal);
+            error.add(errorVal);
         }
 
         allErrors.add(error);
+        //System.out.println();
 
         // hidden nodes are a different equation
         for (int i = layers.size() - 2; i >= 0; i--) {
             // for each hidden layer
             current = layers.get(i);
             error = new ArrayList<>();
-            outputs = all.get(i);
+            outputs = allOutputs.get(i);
+            //System.out.println("errors per node in (hidden) layer " + i);
             ArrayList<Double> followingError = allErrors.get(0);
             for (int j = 0; j < current.neurons.size(); j++) {
                 // for each neuron in current hidden layer
@@ -204,6 +257,7 @@ class Network {
                 }
 
                 double errorVal = outputs.get(j) * (1 - outputs.get(j)) * sumError;
+                //System.out.println("error in node " + j + ": " + errorVal);
                 error.add(errorVal);
             }
 
@@ -213,7 +267,7 @@ class Network {
 
         // feed forward to update weights based on errors
         inputs.add(-1.0);
-        all.add(0,inputs);
+        allOutputs.add(0, inputs);
         for (int i = 0; i < layers.size(); i++) {
             // foreach layer
             current = layers.get(i);
@@ -223,12 +277,17 @@ class Network {
                 for (int k = 0; k < neuron.weights.size(); k++) {
                     // foreach weight in neuron
 
-                    //System.out.println("previous value: " + all.get(i).get(k) + "    currentError: " + allErrors.get(i).get(j));
-                    double newWeight = neuron.weights.get(k) - all.get(i).get(k) * allErrors.get(i).get(j) * learningValue;
-                    //System.out.println("oldweight: " + neuron.weights.get(k) + " neweight: " + newWeight);
+                    ////System.out.println("previous value: " + all.get(i).get(k) + "    currentError: " + allErrors.get(i).get(j));
+                    double newWeight = neuron.weights.get(k) - allOutputs.get(i).get(k) * allErrors.get(i).get(j) * learningValue;
+                    ////System.out.println("Weight change: " + (neuron.weights.get(k) - newWeight));
+                    //System.out.println("layer: " + i + " node: " + j + " weight: " + k + "   oldweight: " + neuron.weights.get(k) + " neweight: " + newWeight);
                     neuron.weights.set(k, newWeight);
                 }
+
+                current.neurons.set(j, neuron);
             }
+
+            layers.set(i, current);
         }
 
         // return total error
