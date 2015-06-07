@@ -28,7 +28,6 @@ public class NeuralNetworkClassifier extends Classifier {
     @Override
     public void buildClassifier(Instances instances) throws Exception {
 
-        ////System.out.println("learning factor: " + learningFactor);
         int inputCount = instances.numAttributes() - 1;
 
         List<Integer> nodesPerLayer = new ArrayList<>();
@@ -40,37 +39,17 @@ public class NeuralNetworkClassifier extends Classifier {
 
         nodesPerLayer.add(instances.numDistinctValues(instances.classIndex()));
 
-        ////System.out.println("number of nodes per layer");
-        for (Integer i : nodesPerLayer) {
-            //System.out.println(i);
-        }
-
-        //System.out.println();
-
         network = new Network(inputCount, nodesPerLayer);
 
-        for (Layer l : network.layers) {
-            //System.out.println("new layer");
-            for (Neuron neuron : l.neurons) {
-                //System.out.println("new neuron");
-                for (Double w : neuron.weights) {
-                    //System.out.println(w);
-                }
-                //System.out.println();
-            }
-        }
-
         ArrayList<Double> errorsPerIteration = new ArrayList<>();
-        pimps: for (int j = 0; j < iterations; j++) {
+        for (int j = 0; j < iterations; j++) {
             for (int k = 0; k < instances.numInstances(); k++) {
                 Instance instance = instances.instance(k);
 
                 List<Double> input = new ArrayList<>();
 
-                //System.out.println("num attributes: " + instance.numAttributes());
                 for (int i = 0; i < instance.numAttributes(); i++) {
                     if (i == instance.classIndex()) {
-                        //System.out.println("expected class: " + instance.value(i));
                     } else if (Double.isNaN(instance.value(i))) {
                         input.add(0.0);
                     } else {
@@ -79,20 +58,8 @@ public class NeuralNetworkClassifier extends Classifier {
 
                 }
 
-                //System.out.println("inputs");
-                for (Double in : input) {
-                    //System.out.println(in);
-                }
-
                 errorsPerIteration.add(network.train(input, instance.value(instance.classIndex()), learningFactor));
-                //break pimps;
             }
-        }
-
-        //System.out.println();
-        //System.out.println("errors per iteration:");
-        for (int i = 0; i < errorsPerIteration.size(); i++) {
-            //System.out.println(errorsPerIteration.get(i));
         }
     }
 
@@ -204,18 +171,10 @@ class Network {
         List<Double> outputs = new ArrayList<>(inputs);
         // feed forward to calculate outputs
 
-        outputs.add(1.0);
         for (Layer layer : layers) {
-            outputs = layer.produceOutputs(outputs);
-            //System.out.println("outputs:" );
-            for (Double d : outputs) {
-                //System.out.println(d);
-            }
             outputs.add(1.0);
+            outputs = layer.produceOutputs(outputs);
             allOutputs.add(outputs);
-            for (Double d : outputs) {
-                ////System.out.println("output: " + d);
-            }
         }
 
         ArrayList<ArrayList<Double>> allErrors = new ArrayList<>();
@@ -266,7 +225,7 @@ class Network {
         }
 
         // feed forward to update weights based on errors
-        inputs.add(-1.0);
+        inputs.add(1.0);
         allOutputs.add(0, inputs);
         for (int i = 0; i < layers.size(); i++) {
             // foreach layer
@@ -277,10 +236,7 @@ class Network {
                 for (int k = 0; k < neuron.weights.size(); k++) {
                     // foreach weight in neuron
 
-                    ////System.out.println("previous value: " + all.get(i).get(k) + "    currentError: " + allErrors.get(i).get(j));
                     double newWeight = neuron.weights.get(k) - allOutputs.get(i).get(k) * allErrors.get(i).get(j) * learningValue;
-                    ////System.out.println("Weight change: " + (neuron.weights.get(k) - newWeight));
-                    //System.out.println("layer: " + i + " node: " + j + " weight: " + k + "   oldweight: " + neuron.weights.get(k) + " neweight: " + newWeight);
                     neuron.weights.set(k, newWeight);
                 }
 

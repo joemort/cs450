@@ -19,11 +19,11 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("irisdata.csv");
+        DataSource source = new DataSource("votingdata.csv");
         Instances dataSetPre = source.getDataSet();
 
-        //dataSetPre.setClassIndex(0);
-        dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
+        //dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
+        dataSetPre.setClassIndex(0);
 
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
@@ -36,14 +36,12 @@ public class ClassifierShell {
 
         Instances dataSet = dataSetPre;
 
-        //dataSet = Filter.useFilter(dataSet, discretize);
         dataSet = Filter.useFilter(dataSet, stand);
-        //dataSet = Filter.useFilter(dataSet, ntb);
 
 
         dataSet.randomize(new Random(9001));
 
-        Classifier classify = new NeuralNetworkClassifier(3, 50001, 0.1);
+        Classifier classify = new NeuralNetworkClassifier(3, 20001, 0.1);
         Evaluation eval = new Evaluation(dataSet);
 
         int trainingSize = (int) Math.round(dataSet.numInstances() * .7);

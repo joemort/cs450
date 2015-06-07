@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a73bb16f-e8a1-4824-ad3a-60d0c27dcf1b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/joemort/ClassifierShell.class" afterPath="$PROJECT_DIR$/target/classes/com/joemort/ClassifierShell.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java" afterPath="$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java" afterPath="$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -27,21 +28,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ClassifierShell.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ClassifierShell.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.69762844">
+              <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NeuralNetworkClassifier.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NeuralNetworkClassifier.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47233203">
-              <caret line="130" column="12" selection-start-line="130" selection-start-column="12" selection-end-line="130" selection-end-column="12" />
+            <state vertical-scroll-proportion="-1.3793104">
+              <caret line="36" column="14" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -711,7 +712,13 @@
       <option name="project" value="LOCAL" />
       <updated>1433436789410</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="moar nural networkz">
+      <created>1433638399448</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1433638399448</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -775,20 +782,21 @@
     <MESSAGE value="add 10 fold cross validation" />
     <MESSAGE value="rename lensesdata.csv" />
     <MESSAGE value="add intro stuff for neural network classifier" />
-    <option name="LAST_COMMIT_MESSAGE" value="add intro stuff for neural network classifier" />
+    <MESSAGE value="moar nural networkz" />
+    <option name="LAST_COMMIT_MESSAGE" value="moar nural networkz" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java</url>
-          <line>175</line>
+          <line>142</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java</url>
-          <line>300</line>
+          <line>256</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
@@ -1237,13 +1245,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/votingdata.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.650407">
-          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/nz/ac/waikato/cms/weka/weka-stable/3.6.6/weka-stable-3.6.6.jar!/weka/classifiers/Evaluation.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1290,21 +1291,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
+        <state vertical-scroll-proportion="-1.3793104">
+          <caret line="36" column="14" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/votingdata.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.245059">
+          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/NeuralNetworkClassifier.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/joemort/ClassifierShell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47233203">
-          <caret line="130" column="12" selection-start-line="130" selection-start-column="12" selection-end-line="130" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.69762844">
+          <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
