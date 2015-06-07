@@ -2,6 +2,8 @@ package com.joemort;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.functions.MultilayerPerceptron;
+import weka.classifiers.pmml.consumer.NeuralNetwork;
 import weka.classifiers.trees.Id3;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -19,11 +21,11 @@ import java.util.Random;
  */
 public class ClassifierShell {
     public static void main(String[] args) throws Exception {
-        DataSource source = new DataSource("votingdata.csv");
+        DataSource source = new DataSource("cardata.csv");
         Instances dataSetPre = source.getDataSet();
 
-        //dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
-        dataSetPre.setClassIndex(0);
+        dataSetPre.setClassIndex(dataSetPre.numAttributes() - 1);
+        //dataSetPre.setClassIndex(0);
 
         Standardize stand = new Standardize();
         stand.setInputFormat(dataSetPre);
@@ -41,7 +43,7 @@ public class ClassifierShell {
 
         dataSet.randomize(new Random(9001));
 
-        Classifier classify = new NeuralNetworkClassifier(3, 20001, 0.1);
+        Classifier classify = new NeuralNetworkClassifier(3, 10000, 0.01);
         Evaluation eval = new Evaluation(dataSet);
 
         int trainingSize = (int) Math.round(dataSet.numInstances() * .7);

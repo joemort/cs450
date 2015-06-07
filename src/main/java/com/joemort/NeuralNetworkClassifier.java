@@ -43,6 +43,7 @@ public class NeuralNetworkClassifier extends Classifier {
 
         ArrayList<Double> errorsPerIteration = new ArrayList<>();
         for (int j = 0; j < iterations; j++) {
+            double errorsPer = 0;
             for (int k = 0; k < instances.numInstances(); k++) {
                 Instance instance = instances.instance(k);
 
@@ -58,8 +59,14 @@ public class NeuralNetworkClassifier extends Classifier {
 
                 }
 
-                errorsPerIteration.add(network.train(input, instance.value(instance.classIndex()), learningFactor));
+                errorsPer += network.train(input, instance.value(instance.classIndex()), learningFactor);
             }
+
+            errorsPerIteration.add(errorsPer);
+        }
+
+        for (Double d : errorsPerIteration) {
+            System.out.println(d);
         }
     }
 
