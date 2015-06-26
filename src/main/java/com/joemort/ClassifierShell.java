@@ -43,7 +43,7 @@ public class ClassifierShell {
 
         dataSet.randomize(new Random(9001));
 
-        Classifier classify = new NeuralNetworkClassifier(3, 10000, 0.01);
+        Classifier classify = new NeuralNetworkClassifier(3, 10000, 0.1);
         Evaluation eval = new Evaluation(dataSet);
 
         int trainingSize = (int) Math.round(dataSet.numInstances() * .7);
